@@ -14,6 +14,8 @@ I started this project in order to allow the WordPress.org Theme Review Team (TR
 *   Nginx
 *   Apache
 *   Puppet
+*   [WPTest test data](http://wptest.io/)
+*   Official [Theme Unit Test data](http://codex.wordpress.org/Theme_Unit_Test)
 
 ## Requirements
 
@@ -35,13 +37,15 @@ If you’re on a Unix-based machine with a Bash shell, setup is pretty easy:
 ### MySQL
 * root:blank
 * wordpress:wordpress
+* wordpress2:wordpress2
+* wordpress_multi:wordpress_multi
 
 ### WordPress
 * wordpress:wordpress
 
 ## Vagrant Primer
 
-The [Vagrant CLI documentation](http://docs.vagrantup.com/v2/cli/index.html) will be useful for developers that haven't used Vagrant before. Since VIP Quickstart is built on top of Vagrant, the Vagrant CLI commands will also work.
+The [Vagrant CLI documentation](http://docs.vagrantup.com/v2/cli/index.html) will be useful for developers that haven't used Vagrant before.
 
 Some useful commands:
 
