@@ -13,6 +13,12 @@ file {
 		mode		=> "0775",
 		owner		=> "apache",
 		group 		=> "apache",;
+
+	"/var/www/multitest.dev":
+		ensure		=> "directory",
+		mode		=> "0775",
+		owner		=> "apache",
+		group 		=> "apache",;
 	
 }
 
@@ -24,4 +30,9 @@ apache::vhost {
 	"wptest.dev":
 	docroot		=> "/var/www/wptest.dev",
 	template	=> "apache/vhost.conf.erb",;
+	
+	"multitest.dev":
+	docroot		=> "/var/www/multitest.dev",
+	template	=> "apache/vhost.conf.erb",;
+	
 }
