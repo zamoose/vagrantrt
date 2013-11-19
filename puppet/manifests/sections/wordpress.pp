@@ -9,7 +9,7 @@ $wptpath = '/var/www/wptest.dev'
 $mtpath = '/var/www/multitest.dev'
 
 # Install WordPress 1 (Theme Unit Test data)
-trt::install{
+trt::install {
 	'unittest.dev':
 		wp_url			=> 'unittest.dev',
 		install_path 	=> $utpath;
