@@ -1,7 +1,7 @@
 class { wp::cli:
 	ensure => installed,
 	install_path => '/usr/share/wp-cli',
-	version => '0.12.1',
+	version => '0.13',
 }
 
 $utpath = '/var/www/unittest.dev'
