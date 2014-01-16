@@ -4,15 +4,15 @@ package { "epel-release":
 	source		=> "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm",
 }
 
-package { "httpd":
-	ensure		=> "latest",
-	provider	=> "yum",
-}
+# package { "httpd":
+# 	ensure		=> "latest",
+# 	provider	=> "yum",
+# }
 
-package { "mysql-server":
-	ensure		=> "latest",
-	provider	=> "yum",		
-}
+# package { "mysql-server":
+# 	ensure		=> "latest",
+# 	provider	=> "yum",		
+# }
 
 package { "php":
 	ensure		=> "latest",
