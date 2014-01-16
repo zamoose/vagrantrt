@@ -8,8 +8,8 @@ define trt::install (
 	$admin_user = 'wordpress',
 	$admin_pw = 'wordpress',
 	$multisite = false,
-
  ){
+	 
 	require wp::cli
 	require mysql
 	
@@ -30,23 +30,19 @@ define trt::install (
 	}
 	
 	# Download latest stable WordPress
-	exec { "wp download $install_path":
+	exec { "wp core download $install_path":
 		command 	=> "/usr/bin/wp core download",
 		cwd 		=> $install_path,
 		unless 		=> "/usr/bin/test -f $install_path/wp-config-sample.php",
 		require 	=> [ Class['wp::cli'], File[$install_path] ],	
 	}
 	# Create the wp-config.php file
-	exec { "wp config $install_path":
-		command		=> "/usr/bin/wp core config --dbname=$db_name --dbuser=$db_user --dbpass=$db_pass --dbhost=$db_host --extra-php <<PHP
-define( 'WP_DEBUG', true );
-define( 'WP_DEBUG_LOG', true );
-",
-		cwd			=> $install_path,
-		unless		=> "/usr/bin/test -f $install_path/wp-config.php",
-		require 	=> [ Class['wp::cli'], File[$install_path], Exec["wp download $install_path"] ],	
-
+	file { "${install_path}/wp-config.php":
+		replace		=> 'no',
+		content		=> template('wordpress/wp-config.php.erb'),
+		require		=> File[$install_path],
 	}
+
 	# Perform the actual install
 	exec {"wp install $install_path":
 		command => $multisite ? {
@@ -55,6 +51,6 @@ define( 'WP_DEBUG_LOG', true );
 		},
 		cwd => $install_path,
 		unless		=> '/usr/bin/wp core is-installed',	
-		require 	=> [ Class['wp::cli'], File[$install_path], Exec["wp config $install_path"] ],
+		require 	=> [ Class['wp::cli'], File[$install_path], File["${install_path}/wp-config.php"] ],
 	}	
 }
