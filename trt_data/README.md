@@ -1,1 +1,0 @@
-# VagranTRT Shared Data Directory #
