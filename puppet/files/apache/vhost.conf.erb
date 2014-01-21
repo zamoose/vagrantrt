@@ -14,3 +14,7 @@
     ErrorLog  <%= scope.lookupvar('apache::log_dir')%>/<%= @name %>-error_log
     CustomLog <%= scope.lookupvar('apache::log_dir')%>/<%= @name %>-access_log common
 </VirtualHost>
+
+<Directory <%= @docroot %>>
+	
+</Directory>
