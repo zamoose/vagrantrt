@@ -8,6 +8,7 @@ define trt::install (
 	$db_host = 'localhost',
 	$admin_user = 'wordpress',
 	$admin_pw = 'wordpress',
+	$data = 'skip',
 	$multisite = false,
  ){
 	 
