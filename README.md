@@ -6,7 +6,7 @@ I started this project in order to allow the WordPress.org Theme Review Team (TR
 
 ## What You Get
 
-*   CentOS 6.4
+*   CentOS 6.5
 *   WordPress Developer Plugin, Theme Check Plugin 
 *   WP-CLI
 *   MySQL
@@ -71,6 +71,7 @@ The following projects are either inspirations, Git submodules employed in this 
 * [Varying Vagrant Vagrants](https://github.com/10up/varying-vagrant-vagrants)
 * [VIP Quickstart](https://github.com/Automattic/vip-quickstart)
 * [WP-CLI](http://wp-cli.org)
+* [WP-CLI Theme Test](https://github.com/pixline/wp-cli-theme-test-command)
 * [puppet-firewall](https://github.com/example42/puppet-firewall)
 * [puppet-mysql](https://github.com/example42/puppet-mysql)
 * [puppet-nginx](https://github.com/example42/puppet-nginx)
