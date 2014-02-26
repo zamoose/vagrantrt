@@ -25,19 +25,16 @@ define trt::install (
 		}
 	}
 	# Set up the install directory
-	if ! defined( File[$install_path] ) {
-		file { $install_path:
-			ensure		=> 'directory',
-			owner		=> 'apache',
-			group 		=> 'apache',
-		}
-	}
+	wp::download { $install_path: }
 	# Set up the config file
-	file { "${install_path}/wp-config.php":
-		replace		=> 'no',
-		content		=> template('wordpress/wp-config.php.erb'),
-		require		=> File[$install_path],
+	wp::config { $install_path:
+		dbname		=> $db_name,
+		dbuser	 	=> $db_user,
+		dbpass		=> $db_pass,
+		dbhost		=> $db_host,
+		require		=> Wp::Download[$install_path],
 	}
+
 	# Perform the install
 	wp::site { $install_path:
 		url				=> "$wp_url",
@@ -45,7 +42,7 @@ define trt::install (
 		network			=> "$multisite",
 		admin_user 		=> "$admin_user",
 		admin_password	=> "$admin_pw",
-		require			=> [ File["${install_path}/wp-config.php"], Mysql::Grant[$db_name], ],
+		require			=> [ Wp::Config[$install_path], Mysql::Grant[$db_name], ],
 		
 	}
 	# Install the standard plugin roster
@@ -79,17 +76,26 @@ define trt::install (
 			require		=> Wp::Site[$install_path];		
 
 	}
-	# wp::theme {
-	# 	#[ "twentyeleven", "twentyten" ]:
-	# 	"${install_path} Twenty Eleven":
-	# 		slug		=> "twentyeleven",
-	# 		location	=> "$install_path",
-	# 		ensure		=> "installed",
-	# 		require		=> Wp::Site[$install_path];
-	# 	"${install_path} Twenty Ten":
-	# 		slug		=> "twentyten",
-	# 		location	=> "$install_path",
-	# 		ensure		=> "installed",
-	# 		require		=> Wp::Site[$install_path];			
-	# }
+	# Symlink in the synced directory so that we can easily put theme review files in place
+	file { "${install_path}/wp-content/themes/trt-themes":
+		ensure	=> link,
+		target	=> "/mnt/trt_data/themes",
+		require	=> Wp::Site[$install_path],
+	}
+	
+	wp::theme {
+		#[ "twentyeleven", "twentyten" ]:
+		# "${install_path} Twenty Eleven":
+		"twentyeleven":
+			# slug		=> "twentyeleven",
+			location	=> "$install_path",
+			ensure		=> "installed",
+			require		=> Wp::Site[$install_path];
+		# "${install_path} Twenty Ten":
+		"twentyten":
+			# slug		=> "twentyten",
+			location	=> "$install_path",
+			ensure		=> "installed",
+			require		=> Wp::Site[$install_path];			
+	}
 }
