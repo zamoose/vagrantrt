@@ -83,19 +83,19 @@ define trt::install (
 		require	=> Wp::Site[$install_path],
 	}
 	
-	wp::theme {
-		#[ "twentyeleven", "twentyten" ]:
-		# "${install_path} Twenty Eleven":
-		"twentyeleven":
-			# slug		=> "twentyeleven",
-			location	=> "$install_path",
-			ensure		=> "installed",
-			require		=> Wp::Site[$install_path];
-		# "${install_path} Twenty Ten":
-		"twentyten":
-			# slug		=> "twentyten",
-			location	=> "$install_path",
-			ensure		=> "installed",
-			require		=> Wp::Site[$install_path];			
-	}
+	# wp::theme {
+	# 	#[ "twentyeleven", "twentyten" ]:
+	# 	# "${install_path} Twenty Eleven":
+	# 	"twentyeleven":
+	# 		# slug		=> "twentyeleven",
+	# 		location	=> "$install_path",
+	# 		ensure		=> "installed",
+	# 		require		=> Wp::Site[$install_path];
+	# 	# "${install_path} Twenty Ten":
+	# 	"twentyten":
+	# 		# slug		=> "twentyten",
+	# 		location	=> "$install_path",
+	# 		ensure		=> "installed",
+	# 		require		=> Wp::Site[$install_path];			
+	# }
 }

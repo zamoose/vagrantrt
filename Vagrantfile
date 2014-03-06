@@ -6,7 +6,11 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "centos65puppet"
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
-  config.vm.network :private_network, ip: "192.168.33.10"
+  config.vm.hostname = "vagrantrt.example.com"
+  # config.vm.network :private_network, ip: "192.168.33.10", :adapter => 1
+  # config.vm.network :private_network, ip: "192.168.33.20", :adapter => 2
+  config.vm.network :private_network, ip: "192.168.33.10" 
+  # config.vm.network :private_network, ip:  "192.168.33.20", :adapter => 2
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
