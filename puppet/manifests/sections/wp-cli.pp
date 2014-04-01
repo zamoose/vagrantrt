@@ -1,9 +1,13 @@
 $install_path = '/usr/share/wp-cli'
 
+class { 'wp':
+	user 	=> 'apache',
+}
+
 class { wp::cli:
 	ensure 			=> installed,
 	install_path 	=> $install_path,
-	version 		=> '0.14.0',
+	version 		=> '0.14.1',
 } -> exec { 'wp package index':
 	environment	=> "COMPOSER_HOME=$install_path",
 	command	=> "$install_path/composer.phar config repositories.wp-cli composer http://wp-cli.org/package-index/",
