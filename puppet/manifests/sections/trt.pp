@@ -10,11 +10,12 @@ define trt::install (
 	$admin_pw = 'wordpress',
 	$data = 'skip',
 	$multisite = false,
+	$extraphp = false,
  ){
-	 
+
 	require wp::cli
 	require mysql
-	
+
 	# Set up the DB
 	if !defined( Mysql::Grant[$db_name] ) {
 		mysql::grant { $db_name:
@@ -32,6 +33,7 @@ define trt::install (
 		dbuser	 	=> $db_user,
 		dbpass		=> $db_pass,
 		dbhost		=> $db_host,
+		extraphp		=> $extraphp,
 		require		=> Wp::Download[$install_path],
 	}
 
@@ -43,7 +45,7 @@ define trt::install (
 		admin_user 		=> "$admin_user",
 		admin_password	=> "$admin_pw",
 		require			=> [ Wp::Config[$install_path], Mysql::Grant[$db_name], ],
-		
+
 	}
 	# Install the standard plugin roster
 	wp::plugin {
@@ -57,23 +59,23 @@ define trt::install (
 		"${install_path} Theme Check":
 			slug		=> "theme-check",
 			location	=> "$install_path",
-			require		=> Wp::Site[$install_path];		
+			require		=> Wp::Site[$install_path];
 		"${install_path} Monster Widget":
 			slug		=> "monster-widget",
 			location	=> "$install_path",
-			require		=> Wp::Site[$install_path];		
+			require		=> Wp::Site[$install_path];
 		"${install_path} Debogger":
 			slug		=> "debogger",
 			location	=> "$install_path",
-			require		=> Wp::Site[$install_path];		
+			require		=> Wp::Site[$install_path];
 		"${install_path} Log Deprecated Notices":
 			slug		=> "log-deprecated-notices",
 			location	=> "$install_path",
-			require		=> Wp::Site[$install_path];		
+			require		=> Wp::Site[$install_path];
 		"${install_path} Debug Bar":
 			slug		=> "debug-bar",
 			location	=> "$install_path",
-			require		=> Wp::Site[$install_path];		
+			require		=> Wp::Site[$install_path];
 
 	}
 	# Symlink in the synced directory so that we can easily put theme review files in place
@@ -82,7 +84,7 @@ define trt::install (
 		target	=> "/mnt/trt_data/themes",
 		require	=> Wp::Site[$install_path],
 	}
-	
+
 	# wp::theme {
 	# 	#[ "twentyeleven", "twentyten" ]:
 	# 	# "${install_path} Twenty Eleven":
@@ -96,6 +98,6 @@ define trt::install (
 	# 		# slug		=> "twentyten",
 	# 		location	=> "$install_path",
 	# 		ensure		=> "installed",
-	# 		require		=> Wp::Site[$install_path];			
+	# 		require		=> Wp::Site[$install_path];
 	# }
 }
