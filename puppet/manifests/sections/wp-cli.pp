@@ -8,12 +8,55 @@ class { wp::cli:
 	ensure 			=> installed,
 	install_path 	=> $install_path,
 	version 		=> '0.14.1',
-} -> exec { 'wp package index':
-	environment	=> "COMPOSER_HOME=$install_path",
-	command	=> "$install_path/composer.phar config repositories.wp-cli composer http://wp-cli.org/package-index/",
-	cwd		=> $install_path,
-} -> exec{'wp theme-test installation':
-	environment	=> "COMPOSER_HOME=$install_path",
-	command	=> "$install_path/composer.phar require pixline/wp-cli-theme-test-command=dev-master",
-	cwd		=> $install_path,
+}
+
+# Some extra commands that prove useful
+file { '/usr/share/wp-cli/commands':
+	ensure	=> "directory",
+	mode		=> "0755",
+}
+
+vcsrepo {
+	'/usr/share/wp-cli/commands/dictator':
+		ensure	=> 'present',
+		provider	=> 'git',
+		source	=> 'https://github.com/danielbachhuber/dictator.git';
+
+	'/usr/share/wp-cli/commands/theme-test':
+		ensure	=> 'present',
+		provider	=> 'git',
+		source	=> 'https://github.com/pixline/wp-cli-theme-test-command.git';
+}
+
+# Add contributed commands to the default setup
+file { '/home/vagrant/.wp-cli':
+	ensure	=> 'directory',
+	mode	=> '0751',
+	owner	=> 'vagrant',
+	group 	=> 'vagrant',
+}
+
+file { '/root/.wp-cli':
+	ensure	=> 'directory',
+	mode	=> '0751',
+	owner	=> 'root',
+	group 	=> 'root',
+}
+
+file { '/home/vagrant/.wp-cli/config.yml':
+	ensure	=> 'file',
+	mode	=> '0644',
+	content	=> template('wp-cli/config.yml'),
+	owner	=> 'vagrant',
+	group 	=> 'vagrant',
+	require	=> File['/home/vagrant/.wp-cli'],
+}
+
+file { '/root/.wp-cli/config.yml':
+	ensure	=> 'file',
+	mode	=> '0644',
+	content	=> template('wp-cli/config.yml'),
+	owner	=> 'root',
+	group 	=> 'root',
+	require	=> File['/root/.wp-cli'],
 }
