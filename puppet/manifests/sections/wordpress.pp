@@ -7,7 +7,7 @@ trt::install {
 	'unittest.dev':
 		wp_url			=> 'unittest.dev',
 		install_path 	=> $utpath;
-	
+
 	# Install WordPress 2 (WPTest.io data)
 	'wptest.dev':
 		wp_url			=> 'wptest.dev',
@@ -15,7 +15,7 @@ trt::install {
 		db_user 		=> 'wordpress2',
 		db_pass			=> 'wordpress2',
 		db_name			=> 'wordpress2';
-		
+
 	# Install WordPress 3 (Multisite)
 	'multitest.dev':
 		wp_url			=> 'multitest.dev',
@@ -23,6 +23,10 @@ trt::install {
 		db_user 		=> 'wordpress_multi',
 		db_pass			=> 'wordpress_multi',
 		db_name			=> 'wordpress_multi',
+        extraphp        => "<<PHP
+define('FS_METHOD', 'direct');
+define('WP_CACHE', 'true');
+define('WP_CACHE_KEY_SALT', '${slug}1');
+PHP",
 		multisite		=> true;
-					
 }
