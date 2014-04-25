@@ -15,7 +15,24 @@ define trt::install (
 
 	require wp::cli
 	require mysql
+	require apache
 
+	# Set up the docroot
+	if !defined(File[$install_path]){
+		file { $install_path:
+			ensure		=> "directory",
+			mode		=> "0775",
+			owner		=> "apache",
+			group 		=> "apache",;
+		}
+	}
+
+	# Set up the vhost
+	if !defined(Apache::Vhost[$wp_url]){
+		docroot		=> $install_path,
+		template	=> "apache/vhost.conf.erb",;
+	}
+	
 	# Set up the DB
 	if !defined( Mysql::Grant[$db_name] ) {
 		mysql::grant { $db_name:
