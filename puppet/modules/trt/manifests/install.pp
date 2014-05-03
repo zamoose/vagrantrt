@@ -15,7 +15,6 @@ define trt::install (
 
   require wp::cli
   require mysql
-  # require apache
 
   # Set up the docroot
   if !defined(File[$install_path]){
@@ -53,7 +52,7 @@ define trt::install (
     dbpass		=> $db_pass,
     dbhost		=> $db_host,
     extraphp		=> $extraphp,
-    require		=> Wp::Download[$install_path],
+    require		=> [Wp::Download[$install_path], Mysql::Grant[$db_name], ],
   }
 
   # Perform the install
@@ -95,6 +94,10 @@ define trt::install (
       slug		=> "debug-bar",
       location	=> "$install_path",
       require		=> Wp::Site[$install_path];
+    "${install_path} debug-bar-slow-actions":
+      slug  => "debug-bar-slow-actions",
+      location  => "$install_path",
+      require  => Wp::Site[$install_path];
 
   }
   # Symlink in the synced directory so that we can easily put theme review files in place
@@ -104,19 +107,20 @@ define trt::install (
     require	=> Wp::Site[$install_path],
   }
 
-  # wp::theme {
-  # 	#[ "twentyeleven", "twentyten" ]:
-  # 	# "${install_path} Twenty Eleven":
-  # 	"twentyeleven":
-  # 		# slug		=> "twentyeleven",
-  # 		location	=> "$install_path",
-  # 		ensure		=> "installed",
-  # 		require		=> Wp::Site[$install_path];
-  # 	# "${install_path} Twenty Ten":
-  # 	"twentyten":
-  # 		# slug		=> "twentyten",
-  # 		location	=> "$install_path",
-  # 		ensure		=> "installed",
-  # 		require		=> Wp::Site[$install_path];
-  # }
+  wp::theme {
+  	# "${install_path} twentyeleven":
+  	# 	slug		=> "twentyeleven",
+  	# 	location	=> "$install_path",
+  	# 	require		=> Wp::Site[$install_path];
+  	"${install_path} twentyten":
+  		slug		=> "twentyten",
+  		location	=> "$install_path",
+      ensure  => "installed",
+  		require		=> Wp::Site[$install_path];
+    "${install_path} hemingway":
+      slug		=> "hemingway",
+      location	=> "$install_path",
+      ensure  => "installed",
+      require		=> Wp::Site[$install_path];
+  }
 }

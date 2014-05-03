@@ -4,10 +4,9 @@ class { 'wp':
 	user 	=> 'apache',
 }
 
-class { wp::cli:
+class { 'wp::cli':
 	ensure 			=> installed,
 	install_path 	=> $install_path,
-	version 		=> '0.14.1',
 }
 
 # Some extra commands that prove useful
