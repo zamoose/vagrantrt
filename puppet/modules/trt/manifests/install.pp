@@ -14,6 +14,7 @@ define trt::install (
  ){
 
   require wp::cli
+  require trt::params
   require mysql
 
   # Set up the docroot
@@ -69,35 +70,40 @@ define trt::install (
   wp::plugin {
 #		[ "developer", "theme-check", "monster-widget", "debogger", "log-deprecated-notices",
 #		"debug-bar" ]:
-    "${install_path} Developer":
-      slug		=> "developer",
-      ensure		=> "disabled",
-      location	=> "$install_path",
-      require		=> Wp::Site[$install_path];
-    "${install_path} Theme Check":
-      slug		=> "theme-check",
-      location	=> "$install_path",
-      require		=> Wp::Site[$install_path];
-    "${install_path} Monster Widget":
-      slug		=> "monster-widget",
-      location	=> "$install_path",
-      require		=> Wp::Site[$install_path];
-    "${install_path} Debogger":
-      slug		=> "debogger",
-      location	=> "$install_path",
-      require		=> Wp::Site[$install_path];
-    "${install_path} Log Deprecated Notices":
-      slug		=> "log-deprecated-notices",
-      location	=> "$install_path",
-      require		=> Wp::Site[$install_path];
-    "${install_path} Debug Bar":
-      slug		=> "debug-bar",
-      location	=> "$install_path",
-      require		=> Wp::Site[$install_path];
-    "${install_path} debug-bar-slow-actions":
-      slug  => "debug-bar-slow-actions",
-      location  => "$install_path",
+    $plugins:
+      name  => "${install_path} ${title}",
+      slug  => $title,
+      location  => $install_path,
       require  => Wp::Site[$install_path];
+    # "${install_path} Developer":
+    #   slug		=> "developer",
+    #   ensure		=> "disabled",
+    #   location	=> "$install_path",
+    #   require		=> Wp::Site[$install_path];
+    # "${install_path} Theme Check":
+    #   slug		=> "theme-check",
+    #   location	=> "$install_path",
+    #   require		=> Wp::Site[$install_path];
+    # "${install_path} Monster Widget":
+    #   slug		=> "monster-widget",
+    #   location	=> "$install_path",
+    #   require		=> Wp::Site[$install_path];
+    # "${install_path} Debogger":
+    #   slug		=> "debogger",
+    #   location	=> "$install_path",
+    #   require		=> Wp::Site[$install_path];
+    # "${install_path} Log Deprecated Notices":
+    #   slug		=> "log-deprecated-notices",
+    #   location	=> "$install_path",
+    #   require		=> Wp::Site[$install_path];
+    # "${install_path} Debug Bar":
+    #   slug		=> "debug-bar",
+    #   location	=> "$install_path",
+    #   require		=> Wp::Site[$install_path];
+    # "${install_path} debug-bar-slow-actions":
+    #   slug  => "debug-bar-slow-actions",
+    #   location  => "$install_path",
+    #   require  => Wp::Site[$install_path];
 
   }
   # Symlink in the synced directory so that we can easily put theme review files in place

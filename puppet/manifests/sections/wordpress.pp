@@ -23,12 +23,13 @@ trt::install {
 		db_user 		=> 'wordpress_multi',
 		db_pass			=> 'wordpress_multi',
 		db_name			=> 'wordpress_multi',
-        extraphp        => "<<PHP
+		multisite		=> true,
+		extraphp        => "<<PHP
 define('FS_METHOD', 'direct');
 define('WP_CACHE', 'true');
 define('WP_CACHE_KEY_SALT', '${slug}1');
-PHP",
-		multisite		=> true;
+PHP";
+
 
 	'puppettest.dev':
 		wp_url	=> 'puppettest.dev',
