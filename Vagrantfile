@@ -39,8 +39,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # end
   config.vm.provision :puppet do |puppet|
     puppet.module_path = "puppet/modules"
+    puppet.hiera_config_path = "hiera.yaml"
     puppet.manifests_path = "puppet/manifests"
     puppet.manifest_file  = "init.pp"
-    puppet.options = ['--templatedir', '/vagrant/puppet/files']
+    puppet.options = '--templatedir /vagrant/puppet/files --parser future'
   end
 end
