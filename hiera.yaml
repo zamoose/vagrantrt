@@ -6,4 +6,6 @@
     :datadir: /mnt/trt_data/hiera/json
 :yaml:
     :datadir: /mnt/trt_data/hiera/yaml
-:hierarchy: common
+:hierarchy:
+    - common
+    - extra
