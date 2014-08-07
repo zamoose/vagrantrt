@@ -29,12 +29,4 @@ define('FS_METHOD', 'direct');
 define('WP_CACHE', 'true');
 define('WP_CACHE_KEY_SALT', '${slug}1');
 PHP";
-
-
-	'puppettest.dev':
-		wp_url	=> 'puppettest.dev',
-		install_path	=> '/var/www/puppettest.dev',
-		db_user	=> 'puppett',
-		db_pass	=> 'puppett',
-		db_name	=> 'puppett';
 }
