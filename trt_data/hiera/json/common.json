@@ -1,4 +1,27 @@
 {
+    "sites": {
+        "unittest.dev": {
+            "install_path": "/var/www/unittest.dev",
+            "db_user": "wordpress",
+            "db_pass": "wordpress",
+            "db_name": "wordpress",
+            "multisite": "false"
+        },
+        "wptest.dev": {
+            "install_path": "/var/www/wptest.dev",
+            "db_user": "wordpress2",
+            "db_pass": "wordpress2",
+            "db_name": "wordpress2",
+            "multisite": "false"
+        },
+        "multitest.dev": {
+            "install_path": "/var/www/multitest.dev",
+            "db_user": "wordpress_multi",
+            "db_pass": "wordpress_multi",
+            "db_name": "wordpress_multi",
+            "multisite": "true"
+        }
+    },
     "plugins": [
         "theme-check",
         "monster-widget",
@@ -7,8 +30,8 @@
         "debug-bar"
     ],
     "themes": [
-        "twentyten",
-        "twentyeleven",
-        "hemingway"
+        "Twenty Ten",
+        "Twenty Eleven",
+        "Hemingway"
     ]
 }
