@@ -10,12 +10,14 @@ define trt::install (
   $admin_pw = 'wordpress',
   $data = 'skip',
   $multisite = false,
-  $extraphp = false,
- ){
+  $extraphp = false
+ ) {
 
   require wp::cli
-  require trt::params
   require mysql
+
+  $plugin_list = hiera_array("plugins")
+  $theme_list = hiera_array("themes")
 
   # Set up the docroot
   if !defined(File[$install_path]){
@@ -44,8 +46,10 @@ define trt::install (
       mysql_host       => $db_host,
     }
   }
+
   # Set up the install directory
   wp::download { $install_path: }
+
   # Set up the config file
   wp::config { $install_path:
     dbname		=> $db_name,
@@ -66,67 +70,29 @@ define trt::install (
     require			=> [ Wp::Config[$install_path], Mysql::Grant[$db_name], ],
 
   }
-  # Install the standard plugin roster
-  wp::plugin {
-#		[ "developer", "theme-check", "monster-widget", "debogger", "log-deprecated-notices",
-#		"debug-bar" ]:
-    $plugins:
-      name  => "${install_path} ${title}",
-      slug  => $title,
-      location  => $install_path,
-      require  => Wp::Site[$install_path];
-    # "${install_path} Developer":
-    #   slug		=> "developer",
-    #   ensure		=> "disabled",
-    #   location	=> "$install_path",
-    #   require		=> Wp::Site[$install_path];
-    # "${install_path} Theme Check":
-    #   slug		=> "theme-check",
-    #   location	=> "$install_path",
-    #   require		=> Wp::Site[$install_path];
-    # "${install_path} Monster Widget":
-    #   slug		=> "monster-widget",
-    #   location	=> "$install_path",
-    #   require		=> Wp::Site[$install_path];
-    # "${install_path} Debogger":
-    #   slug		=> "debogger",
-    #   location	=> "$install_path",
-    #   require		=> Wp::Site[$install_path];
-    # "${install_path} Log Deprecated Notices":
-    #   slug		=> "log-deprecated-notices",
-    #   location	=> "$install_path",
-    #   require		=> Wp::Site[$install_path];
-    # "${install_path} Debug Bar":
-    #   slug		=> "debug-bar",
-    #   location	=> "$install_path",
-    #   require		=> Wp::Site[$install_path];
-    # "${install_path} debug-bar-slow-actions":
-    #   slug  => "debug-bar-slow-actions",
-    #   location  => "$install_path",
-    #   require  => Wp::Site[$install_path];
 
+  # Install the standard plugin roster
+  $plugin_list.each |$plugin| {
+    wp::plugin { "${install_path} ${plugin}":
+      slug  => $plugin,
+      location  => $install_path,
+      require  => Wp::Site[$install_path],
+    }
   }
+
+  # Install the standard themes roster
+  $theme_list.each |$theme| {
+    wp::theme { "${install_path} ${theme}":
+      slug  => $theme,
+      location  => $install_path,
+      require  => Wp::Site[$install_path],
+    }
+  }
+
   # Symlink in the synced directory so that we can easily put theme review files in place
   file { "${install_path}/wp-content/themes/trt-themes":
     ensure	=> link,
     target	=> "/mnt/trt_data/themes",
     require	=> Wp::Site[$install_path],
-  }
-
-  wp::theme {
-  	# "${install_path} twentyeleven":
-  	# 	slug		=> "twentyeleven",
-  	# 	location	=> "$install_path",
-  	# 	require		=> Wp::Site[$install_path];
-  	"${install_path} twentyten":
-  		slug		=> "twentyten",
-  		location	=> "$install_path",
-      ensure  => "installed",
-  		require		=> Wp::Site[$install_path];
-    "${install_path} hemingway":
-      slug		=> "hemingway",
-      location	=> "$install_path",
-      ensure  => "installed",
-      require		=> Wp::Site[$install_path];
   }
 }
