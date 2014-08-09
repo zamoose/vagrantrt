@@ -1,10 +1,15 @@
-package { "epel-release":
-	ensure		=> "present",
-	provider	=> "rpm",
-	source		=> "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm",
+# Grab the list of repositories from Hiera
+$repos = hiera_array("repositories")
+# Grab the list of packages from Hiera
+$packages = hiera_array("packages")
+
+# Set up yum repositories
+class { 'yum':
+	extrarepo	=> $repos,
 }
 
-package { [ "php", "php-mbstring", "php-mysql", "git", "subversion", "mercurial" ]:
+# Install package roster
+package { $packages:
 	ensure		=> "latest",
 	provider	=> "yum",
 }

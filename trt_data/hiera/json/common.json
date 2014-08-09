@@ -33,5 +33,19 @@
         "Twenty Ten",
         "Twenty Eleven",
         "Hemingway"
+    ],
+    "repositories": [
+        "epel",
+        "nginx",
+        "remi",
+        "remi-php55"
+    ],
+    "packages": [
+        "php",
+        "php-mbstring",
+        "php-mysql",
+        "git",
+        "subversion",
+        "mercurial"
     ]
 }
