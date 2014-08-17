@@ -84,6 +84,7 @@ define trt::install (
   $theme_list.each |$theme| {
     wp::theme { "${install_path} ${theme}":
       slug  => $theme,
+      ensure    => "installed",
       location  => $install_path,
       require  => Wp::Site[$install_path],
     }
