@@ -23,6 +23,7 @@
         }
     },
     "plugins": [
+        "theme-checklist",
         "theme-check",
         "monster-widget",
         "debogger",
@@ -30,9 +31,9 @@
         "debug-bar"
     ],
     "themes": [
-        "Twenty Ten",
-        "Twenty Eleven",
-        "Hemingway"
+        "twentyten",
+        "twentyeleven",
+        "hemingway"
     ],
     "repositories": [
         "epel",
