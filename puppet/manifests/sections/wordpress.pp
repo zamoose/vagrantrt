@@ -4,17 +4,19 @@ $mtpath = '/var/www/multitest.dev'
 
 $sites = hiera_hash('sites')
 
-$sites.each |$site, $props| {
-	trt::install {
-		$site:
-		#$s = sprintf( 'Site: %s', $site )
-		#alert($s)
-		$props.each |$prop, $value| {
-			#$t = sprintf( 'Property: %s Value: %s', $prop, $value)
-			#alert($t)
-			$prop => $value
-		}
-	}
+create_resources( 'trt::install', $sites )
+
+# $sites.each |$site, $props| {
+# 	trt::install {
+# 		$site:
+# 		#$s = sprintf( 'Site: %s', $site )
+# 		#alert($s)
+# 		$props.each |$prop, $value| {
+# 			#$t = sprintf( 'Property: %s Value: %s', $prop, $value)
+# 			#alert($t)
+# 			$prop => $value
+# 		}
+# 	}
 
 
 	#trt::install { $site:
@@ -48,4 +50,4 @@ $sites.each |$site, $props| {
 	# define('WP_CACHE_KEY_SALT', '${slug}1');
 	# PHP";
 	#}
-}
+#}
