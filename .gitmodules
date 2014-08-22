@@ -10,9 +10,6 @@
 [submodule "puppet/modules/mysql"]
 	path = puppet/modules/mysql
 	url = https://github.com/example42/puppet-mysql.git
-[submodule "puppet/modules/ngnix"]
-	path = puppet/modules/ngnix
-	url = https://github.com/example42/puppet-nginx.git
 [submodule "puppet/modules/wp"]
 	path = puppet/modules/wp
 	url = https://github.com/zamoose/puppet-wp.git
