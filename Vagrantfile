@@ -34,11 +34,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
   end
-  # config.vm.provision :puppet do |puppet|
-  #   puppet.module_path = "puppet/modules"
-  #   puppet.hiera_config_path = "hiera.yaml"
-  #   puppet.manifests_path = "puppet/manifests"
-  #   puppet.manifest_file  = "init.pp"
-  #   puppet.options = '--templatedir /vagrant/puppet/files --parser future'
-  # end
+  config.vm.provision :puppet do |puppet|
+    puppet.module_path = "puppet/modules"
+    puppet.hiera_config_path = "hiera.yaml"
+    puppet.manifests_path = "puppet/manifests"
+    puppet.manifest_file  = "init.pp"
+    puppet.options = '--templatedir /vagrant/puppet/files --parser future'
+  end
 end
