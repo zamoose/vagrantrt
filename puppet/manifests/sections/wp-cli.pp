@@ -1,7 +1,7 @@
 $install_path = '/usr/share/wp-cli'
 
 class { 'wp':
-	user 	=> 'apache',
+	user 	=> 'nginx',
 }
 
 class { 'wp::cli':
