@@ -1,1 +1,1 @@
-class { "apache": }
+class { 'nginx': }
