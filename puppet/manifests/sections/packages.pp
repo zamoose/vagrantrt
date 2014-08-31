@@ -6,7 +6,7 @@ $packages = hiera_array("packages")
 # Set up yum repositories
 class { 'yum':
 	extrarepo	=> $repos,
-}
+}->
 
 # Install package roster
 package { $packages:
