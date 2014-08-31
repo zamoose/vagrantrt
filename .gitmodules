@@ -28,3 +28,6 @@
 [submodule "puppet/modules/nginx"]
 	path = puppet/modules/nginx
 	url = https://github.com/jfryman/puppet-nginx.git
+[submodule "puppet/modules/concat"]
+	path = puppet/modules/concat
+	url = https://github.com/puppetlabs/puppetlabs-concat.git
