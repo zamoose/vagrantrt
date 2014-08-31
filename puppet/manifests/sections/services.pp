@@ -4,5 +4,6 @@ service {
 		enable		=> "false";
 	"php-fpm":
 		ensure		=> "running",
-		enable		=> "true";
+		enable		=> "true",
+		require		=> Package['php-fpm'];
 }
