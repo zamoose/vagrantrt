@@ -30,11 +30,33 @@ define trt::install (
   }
 
   # Set up the vhost
-  if !defined(Apache::Vhost[$wp_url]){
-    apache::vhost { $wp_url:
-      docroot		=> $install_path,
-      template	=> "apache/vhost.conf.erb",;
-    }
+  # if !defined(Apache::Vhost[$wp_url]){
+  #   apache::vhost { $wp_url:
+  #     docroot		=> $install_path,
+  #     template	=> "apache/vhost.conf.erb",;
+  #   }
+  # }
+
+  # Set up the Nginx vhost
+  if !defined(Nginx::Resource::Vhost[$wp_url]) {
+      nginx::resource::vhost { $wp_url:
+        www_root    => $install_path,
+        index_files => [ "index.php" ],
+        # For fixing this frustrating issue: http://jasonmcclellan.io/jfrymannginx-duplicate-location-error/
+        use_default_location => false,
+
+      }
+  }
+
+  nginx::resource::location {
+      "$wp_url /":
+        ensure      => "present",
+        vhost       => $wp_url,
+        www_root    => $install_path,
+        location    => "/",
+        try_files   => [ '$uri', '$uri/', '/index.php?$args' ];
+
+
   }
 
   # Set up the DB
