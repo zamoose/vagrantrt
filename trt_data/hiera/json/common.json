@@ -40,7 +40,6 @@
     ],
     "repositories": [
         "epel",
-        "nginx",
         "remi",
         "remi-php55"
     ],
