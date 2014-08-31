@@ -1,6 +1,7 @@
 {
     "sites": {
         "unittest.dev": {
+            "wp_url": "unittest.dev",
             "install_path": "/var/www/unittest.dev",
             "db_user": "wordpress",
             "db_pass": "wordpress",
@@ -8,6 +9,7 @@
             "multisite": "false"
         },
         "wptest.dev": {
+            "wp_url": "wptest.dev",
             "install_path": "/var/www/wptest.dev",
             "db_user": "wordpress2",
             "db_pass": "wordpress2",
@@ -15,6 +17,7 @@
             "multisite": "false"
         },
         "multitest.dev": {
+            "wp_url": "multitest.dev",
             "install_path": "/var/www/multitest.dev",
             "db_user": "wordpress_multi",
             "db_pass": "wordpress_multi",
@@ -45,6 +48,7 @@
         "php",
         "php-mbstring",
         "php-mysql",
+        "php-fpm",
         "git",
         "subversion",
         "mercurial"
