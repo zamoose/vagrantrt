@@ -1,4 +1,4 @@
-# VagranTRT -- A Vagrant setup for the WordPress.org Theme Review Team 
+# VagranTRT -- A Vagrant setup for the WordPress.org Theme Review Team
 
 ## Overview
 
@@ -7,7 +7,7 @@ I started this project in order to allow the WordPress.org Theme Review Team (TR
 ## What You Get
 
 *   CentOS 6.5
-*   WordPress Developer Plugin, Theme Check Plugin 
+*   WordPress Developer Plugin, Theme Check Plugin
 *   WP-CLI
 *   MySQL
 *   PHP
@@ -30,7 +30,13 @@ I started this project in order to allow the WordPress.org Theme Review Team (TR
 
 If you’re on a Unix-based machine with a Bash shell, setup is pretty easy:
 
-1.  Clone the [VagranTRT repo](https://github.com/zamoose/vagrantrt)
+1. *Recursively* clone the [VagranTRT repo](https://github.com/zamoose/vagrantrt). This will create a directory named `vagrantrt` by default.
+    * E.g. `git clone https://github.com/zamoose/vagrantrt --recursive`
+1. Change into the `vagrantrt` directory.
+1. Run `vagrant up`.
+1. Wait for a bit.
+1. Log in to your new Vagrant VM via `vagrant ssh`.
+1. Have fun!
 
 ## Usernames and Passwords
 
