@@ -1,7 +1,7 @@
 define trt::install (
   $wp_url = 'localhost',
   $wp_name = 'New WordPress Site',
-  $install_path = '/var/www/html',
+  $install_path = "/var/www/$wp_url",
   $db_name = 'wordpress',
   $db_user = 'wordpress',
   $db_pass = 'wordpress',
@@ -21,11 +21,15 @@ define trt::install (
 
   # Set up the docroot
   if !defined(File[$install_path]){
+    file { "/var/www":
+        ensure  => "directory",
+    } -> 
     file { $install_path:
-      ensure		=> "directory",
+      ensure	=> "directory",
       mode		=> "0775",
-      owner		=> "apache",
-      group 		=> "apache",;
+      owner		=> "nginx",
+      group 	=> "nginx",
+      require   => Package['nginx'];
     }
   }
 
