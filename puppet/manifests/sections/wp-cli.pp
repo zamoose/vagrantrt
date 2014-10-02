@@ -42,6 +42,13 @@ file { '/root/.wp-cli':
 	group 	=> 'root',
 }
 
+file { '/var/cache/nginx/.wp-cli':
+	ensure	=> 'directory',
+	mode	=> '0751',
+	owner	=> 'nginx',
+	group 	=> 'nginx',
+}
+
 file { '/home/vagrant/.wp-cli/config.yml':
 	ensure	=> 'file',
 	mode	=> '0644',
@@ -58,4 +65,13 @@ file { '/root/.wp-cli/config.yml':
 	owner	=> 'root',
 	group 	=> 'root',
 	require	=> File['/root/.wp-cli'],
+}
+
+file { '/var/cache/nginx/.wp-cli/config.yml':
+	ensure	=> 'file',
+	mode	=> '0644',
+	content	=> template('wp-cli/config.yml'),
+	owner	=> 'nginx',
+	group 	=> 'nginx',
+	require	=> File['/var/cache/nginx/.wp-cli'],
 }
