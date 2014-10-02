@@ -1,0 +1,13 @@
+server {
+    listen       80;
+    server_name  <%= @vhost_name %>;
+    root /var/www/<%= @vhost_name %>;
+
+    index index.php;
+    access_log  /var/log/nginx/<%= @vhost_name %>.access.log  main;
+    error_log  /var/log/nginx/<%= @vhost_name %>.error.log warn;
+
+    include global/restrictions.conf;
+
+    include global/wordpress.conf;
+}
