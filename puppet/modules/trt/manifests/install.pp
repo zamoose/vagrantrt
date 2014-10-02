@@ -18,45 +18,27 @@ define trt::install (
 
   $plugin_list = hiera_array("plugins")
   $theme_list = hiera_array("themes")
+  $vhost_name = $wp_url
 
   # Set up the docroot
   if !defined(File[$install_path]){
     file { $install_path:
       ensure		=> "directory",
       mode		=> "0775",
-      owner		=> "apache",
-      group 		=> "apache",;
+      owner		=> "nginx",
+      group 		=> "nginx",
+      require   => Package['nginx'],
     }
   }
 
-  # Set up the vhost
-  # if !defined(Apache::Vhost[$wp_url]){
-  #   apache::vhost { $wp_url:
-  #     docroot		=> $install_path,
-  #     template	=> "apache/vhost.conf.erb",;
-  #   }
-  # }
-
   # Set up the Nginx vhost
-  if !defined(Nginx::Resource::Vhost[$wp_url]) {
-      nginx::resource::vhost { $wp_url:
-        www_root    => $install_path,
-        index_files => [ "index.php" ],
-        # For fixing this frustrating issue: http://jasonmcclellan.io/jfrymannginx-duplicate-location-error/
-        use_default_location => false,
-
-      }
-  }
-
-  nginx::resource::location {
-      "$wp_url /":
-        ensure      => "present",
-        vhost       => $wp_url,
-        www_root    => $install_path,
-        location    => "/",
-        try_files   => [ '$uri', '$uri/', '/index.php?$args' ];
-
-
+  file { "/etc/nginx/conf.d/$wp_url.conf":
+      content   => template('nginx/vhost.conf.erb'),
+      owner     => 'root',
+      group     => 'root',
+      mode      => '0644',
+      require   => Package['nginx'],
+      notify    => Service['nginx'],
   }
 
   # Set up the DB
@@ -78,7 +60,7 @@ define trt::install (
     dbuser	 	=> $db_user,
     dbpass		=> $db_pass,
     dbhost		=> $db_host,
-    extraphp		=> $extraphp,
+    extraphp	=> $extraphp,
     require		=> [Wp::Download[$install_path], Mysql::Grant[$db_name], ],
   }
 
@@ -110,6 +92,11 @@ define trt::install (
       location  => $install_path,
       require  => Wp::Site[$install_path],
     }
+  }
+
+  wp::command { "$install_path theme-test install $data":
+    location    => "${install_path}",
+    command     => "theme-test install --data=$data --plugin=skip --option=skip --require=/usr/share/wp-cli/commands/theme-test/wp-cli-theme-test-command.php"
   }
 
   # Symlink in the synced directory so that we can easily put theme review files in place
